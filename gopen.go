@@ -17,31 +17,32 @@ import (
 
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+
+	"github.com/astr0n8t/gopen/definitions"
+	"github.com/astr0n8t/gopen/modules"
 )
 
 func main() {
 
 	confOptions := readConfig()
 
-	fmt.Println(confOptions.Address)
-}
-
-// A struct to store configuration options
-type config struct {
-	Executable string
-	Address    string
-	Flags      string
-	Root       bool
+	for command, options := range confOptions.Workflow {
+		step := modules.GetModule(command, confOptions.Variables, options)
+		result := step.RunModule()
+		if result {
+			fmt.Println(step.GetOutput())
+		} else {
+			fmt.Errorf("Step " + command + " failed!")
+		}
+	}
 }
 
 // Processes the configuration file and command line arguments using Viper and PFlags
-func readConfig() config {
+func readConfig() definitions.Config {
 
 	// Set defaults
-	viper.SetDefault("Executable", "nmap")
-	viper.SetDefault("Address", "")
-	viper.SetDefault("Flags", "")
-	viper.SetDefault("Root", false)
+	viper.SetDefault("variables.addresses", "")
+	viper.SetDefault("variables.root", false)
 
 	// Set default config directories
 	viper.SetConfigName("config")
@@ -60,24 +61,23 @@ func readConfig() config {
 	}
 
 	// Add and read command line arguments
-	pflag.String("address", "", "Address(es) to scan")
-	pflag.String("executable", "", "Path to an executable to run")
-	pflag.String("flags", "", "Flags to pass to the executable")
-	pflag.Bool("root", false, "Whether it should be ran as root")
+	pflag.String("variables.addresses", "", "Address(es) to scan")
+	pflag.String("variables.ports", "", "Ports) to scan")
+	pflag.Bool("variables.root", false, "Whether it should be ran as root")
 	pflag.Parse()
 
 	// Add the command line arguments to viper
 	viper.BindPFlags(pflag.CommandLine)
 
 	// Unmarshall the config file into the config struct
-	var processedConfig config
+	var processedConfig definitions.Config
 	err = viper.Unmarshal(&processedConfig)
 	if err != nil {
 		panic(fmt.Errorf("unable to unmarshall config file or command line arguments"))
 	}
 
 	// Check for required configuration options
-	if processedConfig.Address == "" {
+	if processedConfig.Variables.Addresses == "" {
 		panic(fmt.Errorf("one or more required arguments not supplied or config file could not be read\n required arguments: address"))
 	}
 
