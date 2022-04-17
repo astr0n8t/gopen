@@ -3,7 +3,6 @@ package utilities
 import (
 	"fmt"
 	"net/netip"
-	"os"
 	"strings"
 
 	"github.com/astr0n8t/gopen/definitions"
@@ -39,8 +38,7 @@ func processIP(addressExp string) []string {
 	firstIP, err := netip.ParseAddr(strings.Split(strings.Split(addressExp, "/")[0], "-")[0])
 
 	if err != nil {
-		fmt.Println("Error parsing address, check address syntax.")
-		os.Exit(1)
+		panic(fmt.Errorf("unable to parse address, check address syntax"))
 	}
 
 	if firstIP.String() == addressExp {
@@ -67,8 +65,7 @@ func processSubnet(addressExp string) []string {
 	network, err2 := netip.ParsePrefix(addressExp)
 
 	if err1 != nil || err2 != nil {
-		fmt.Println("Error parsing address CIDR, check address syntax.")
-		os.Exit(1)
+		panic(fmt.Errorf("unable to parse address CIDR, check address syntax"))
 	}
 
 	// Check if this is a single IP address, returns immediately if true
@@ -115,8 +112,7 @@ func processRange(addressExp string) []string {
 	lastAddress, err2 := netip.ParseAddr(strings.Split(addressExp, "-")[1])
 
 	if err1 != nil || err2 != nil {
-		fmt.Println("Error parsing ending address, check address syntax.")
-		os.Exit(1)
+		panic(fmt.Errorf("unable to parse ending address, check address syntax"))
 	}
 
 	ips = append(ips, currentAddress.String())

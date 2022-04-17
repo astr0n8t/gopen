@@ -57,7 +57,7 @@ func readConfig() definitions.Config {
 	err := viper.ReadInConfig()
 	if err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			fmt.Printf("Config file not found, reading command line arguments only.\n")
+			fmt.Println("Config file not found, reading command line arguments only.")
 		} else {
 			panic(fmt.Errorf("fatal error config file: %s", err))
 		}
