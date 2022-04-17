@@ -11,7 +11,7 @@ type Nmap struct {
 }
 
 func New(opts definitions.Options, proc definitions.Process, res definitions.ResultStore) *Nmap {
-	// Return the reference to a new Cloudflare object
+	// Return the reference to a new nmap object
 	return &Nmap{false, "", opts, proc, res}
 }
 
