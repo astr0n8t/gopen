@@ -16,3 +16,18 @@ type Process struct {
 	Executable string
 	Flags      string
 }
+
+type ResultStore struct {
+	Hosts    map[string]Host
+	Previous string
+	Success  bool
+}
+
+type Host struct {
+	Address     string
+	Port        map[int]bool
+	OS          string
+	Fingerprint string
+	Pages       []string
+	Misc        string
+}

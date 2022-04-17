@@ -5,17 +5,20 @@ import (
 )
 
 type Generic struct {
-	Result bool
-	Output string
+	Result      bool
+	Output      string
+	Options     definitions.Options
+	Process     definitions.Process
+	ResultStore definitions.ResultStore
 }
 
-func New(opts definitions.Options, proc definitions.Process) *Generic {
-	return &Generic{false, ""}
+func New(opts definitions.Options, proc definitions.Process, res definitions.ResultStore) *Generic {
+	return &Generic{false, "", opts, proc, res}
 }
 
-func (n *Generic) RunModule() bool {
+func (n *Generic) RunModule() definitions.ResultStore {
 	n.Result = true
-	return n.Result
+	return n.ResultStore
 }
 
 func (n *Generic) GetOutput() string {

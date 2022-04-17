@@ -20,19 +20,22 @@ import (
 
 	"github.com/astr0n8t/gopen/definitions"
 	"github.com/astr0n8t/gopen/modules"
+	"github.com/astr0n8t/gopen/utilities"
 )
 
 func main() {
 
 	confOptions := readConfig()
 
+	results := utilities.InitHosts(confOptions.Variables)
+
 	for command, options := range confOptions.Workflow {
-		step := modules.GetModule(command, confOptions.Variables, options)
-		result := step.RunModule()
-		if result {
+		step := modules.GetModule(command, confOptions.Variables, options, results)
+		results := step.RunModule()
+		if results.Success {
 			fmt.Println(step.GetOutput())
 		} else {
-			fmt.Errorf("Step " + command + " failed!")
+			fmt.Println("Step " + command + " failed!")
 		}
 	}
 }

@@ -3,18 +3,21 @@ package nmap
 import "github.com/astr0n8t/gopen/definitions"
 
 type Nmap struct {
-	Result bool
-	Output string
+	Result      bool
+	Output      string
+	Options     definitions.Options
+	Process     definitions.Process
+	ResultStore definitions.ResultStore
 }
 
-func New(opts definitions.Options, proc definitions.Process) *Nmap {
+func New(opts definitions.Options, proc definitions.Process, res definitions.ResultStore) *Nmap {
 	// Return the reference to a new Cloudflare object
-	return &Nmap{false, ""}
+	return &Nmap{false, "", opts, proc, res}
 }
 
-func (n *Nmap) RunModule() bool {
+func (n *Nmap) RunModule() definitions.ResultStore {
 	n.Result = true
-	return n.Result
+	return n.ResultStore
 }
 
 func (n *Nmap) GetOutput() string {
