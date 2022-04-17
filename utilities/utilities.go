@@ -9,13 +9,18 @@ import (
 	"github.com/astr0n8t/gopen/definitions"
 )
 
+// Initializes the array of hosts for beginning of evaluation.
+// Input: the options struct object, includes addresses, ports, and root.  We only really need addresses.
+// Output: ResultStore which is the main memory struct which is used throughout
 func InitHosts(variables definitions.Options) definitions.ResultStore {
 	store := definitions.ResultStore{}
 
 	ips := processIP(variables.Addresses)
 
-	for range ips {
-		break
+	store.Hosts = make(map[string]definitions.Host, len(ips))
+
+	for _, ip := range ips {
+		store.Hosts[ip] = definitions.Host{Address: ip}
 	}
 
 	return store
@@ -66,11 +71,13 @@ func processSubnet(addressExp string) []string {
 		os.Exit(1)
 	}
 
+	// Check if this is a single IP address, returns immediately if true
 	if network.IsSingleIP() {
 		ips = append(ips, currentAddress.String())
 		return ips
 	}
 
+	// Check if we are at the beginning address, or a valid address
 	if network.Contains(currentAddress) && network.Contains(currentAddress.Prev()) {
 		ips = append(ips, currentAddress.String())
 	}
