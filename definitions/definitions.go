@@ -26,9 +26,21 @@ type ResultStore struct {
 
 type Host struct {
 	Address     string
-	Port        map[int]bool
+	Hostnames   []string
+	Ports       map[int]Port
 	OS          string
 	Fingerprint string
 	Pages       []string
 	Misc        string
+}
+
+type Port struct {
+	ID       int
+	Protocol string
+	State    string
+}
+
+type ThreadResult struct {
+	Result bool
+	Err    string
 }

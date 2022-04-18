@@ -19,7 +19,9 @@ func InitHosts(variables definitions.Options) *definitions.ResultStore {
 	store.Hosts = make(map[string]definitions.Host, len(ips))
 
 	for _, ip := range ips {
-		store.Hosts[ip] = definitions.Host{Address: ip}
+		store.Hosts[ip] = definitions.Host{
+			Address: ip,
+			Ports:   make(map[int]definitions.Port, 0)}
 	}
 
 	return &store
