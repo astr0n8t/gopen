@@ -7,6 +7,7 @@ type Config struct {
 }
 
 type Options struct {
+	Threads   int
 	Addresses string
 	Ports     string
 	Root      bool

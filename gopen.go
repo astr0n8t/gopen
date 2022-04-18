@@ -44,6 +44,7 @@ func main() {
 func readConfig() definitions.Config {
 
 	// Set defaults
+	viper.SetDefault("variables.threads", 10)
 	viper.SetDefault("variables.addresses", "")
 	viper.SetDefault("variables.root", false)
 
@@ -64,9 +65,10 @@ func readConfig() definitions.Config {
 	}
 
 	// Add and read command line arguments
+	pflag.Int("variables.threads", 10, "Number of threads to use")
 	pflag.String("variables.addresses", "", "Address(es) to scan")
 	pflag.String("variables.ports", "", "Ports) to scan")
-	pflag.Bool("variables.root", false, "Whether it should be ran as root")
+	pflag.Bool("variables.root", false, "Whether it should be run as root")
 	pflag.Parse()
 
 	// Add the command line arguments to viper
