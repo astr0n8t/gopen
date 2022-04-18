@@ -11,7 +11,7 @@ import (
 // Initializes the array of hosts for beginning of evaluation.
 // Input: the options struct object, includes addresses, ports, and root.  We only really need addresses.
 // Output: ResultStore which is the main memory struct which is used throughout
-func InitHosts(variables definitions.Options) definitions.ResultStore {
+func InitHosts(variables definitions.Options) *definitions.ResultStore {
 	store := definitions.ResultStore{}
 
 	ips := processIP(variables.Addresses)
@@ -22,7 +22,7 @@ func InitHosts(variables definitions.Options) definitions.ResultStore {
 		store.Hosts[ip] = definitions.Host{Address: ip}
 	}
 
-	return store
+	return &store
 }
 
 // Takes an address expression and decides the following:

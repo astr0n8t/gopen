@@ -9,14 +9,14 @@ type Generic struct {
 	Output      string
 	Options     definitions.Options
 	Process     definitions.Process
-	ResultStore definitions.ResultStore
+	ResultStore *definitions.ResultStore
 }
 
-func New(opts definitions.Options, proc definitions.Process, res definitions.ResultStore) *Generic {
+func New(opts definitions.Options, proc definitions.Process, res *definitions.ResultStore) *Generic {
 	return &Generic{false, "", opts, proc, res}
 }
 
-func (n *Generic) RunModule() definitions.ResultStore {
+func (n *Generic) RunModule() *definitions.ResultStore {
 	n.Result = true
 	return n.ResultStore
 }

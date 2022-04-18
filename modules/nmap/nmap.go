@@ -7,15 +7,15 @@ type Nmap struct {
 	Output      string
 	Options     definitions.Options
 	Process     definitions.Process
-	ResultStore definitions.ResultStore
+	ResultStore *definitions.ResultStore
 }
 
-func New(opts definitions.Options, proc definitions.Process, res definitions.ResultStore) *Nmap {
+func New(opts definitions.Options, proc definitions.Process, res *definitions.ResultStore) *Nmap {
 	// Return the reference to a new nmap object
 	return &Nmap{false, "", opts, proc, res}
 }
 
-func (n *Nmap) RunModule() definitions.ResultStore {
+func (n *Nmap) RunModule() *definitions.ResultStore {
 	n.Result = true
 	return n.ResultStore
 }
