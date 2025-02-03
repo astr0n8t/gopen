@@ -3,7 +3,7 @@ module github.com/astr0n8t/gopen
 go 1.17
 
 require (
-	github.com/spf13/pflag v1.0.5
+	github.com/spf13/pflag v1.0.6
 	github.com/spf13/viper v1.18.1
 )
 
