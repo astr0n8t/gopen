@@ -1,10 +1,11 @@
 module github.com/astr0n8t/gopen
 
-go 1.17
+go 1.21.0
+
 toolchain go1.24.1
 
 require (
-	github.com/spf13/pflag v1.0.6
+	github.com/spf13/pflag v1.0.7
 	github.com/spf13/viper v1.20.0
 )
 
